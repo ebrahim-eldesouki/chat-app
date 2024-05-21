@@ -83,8 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                   hintText: "password",
                 ),
-                const Sized
-                Box(
+                const SizedBox(
                   height: 18,
                 ),
                 CustomButton(
