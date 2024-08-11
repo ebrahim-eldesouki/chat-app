@@ -24,117 +24,108 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterCubit, RegisterState>(
-      listener: (context, state) {
-        if (state is RegisterLoading) {
-          isLoading == true;
-        } else if (state is RegisterSuccess) {
-          Navigator.pushNamed(context, ChatPage.id,arguments: email);
-          isLoading == false;
-        } else if (state is RegisterFailure) {
-          showSnackBar(context, state.errorMassage);
-          isLoading == false;
-        }
-      },
-      builder: (context, state) {
-        return ModalProgressHUD(
-          inAsyncCall: isLoading,
-          child: Scaffold(
-            backgroundColor: kPrimaryColor,
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Form(
-                key: formKey,
-                child: ListView(
+    return ModalProgressHUD(
+      inAsyncCall: isLoading,
+      child: Scaffold(
+        backgroundColor: kPrimaryColor,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: formkey,
+            child: ListView(
+              children: [
+                Image.asset(
+                  'assets/images/scholar.png',
+                  height: 100,
+                ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 75,
+                    Text(
+                      "Scholar Chat",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "Pacifico",
+                          fontSize: 32),
                     ),
-                    Image.asset(
-                      'assets/images/scholar.png',
-                      height: 100,
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                const Row(
+                  children: [
+                    Text(
+                      "register",
+                      style: TextStyle(color: Colors.white, fontSize: 28),
                     ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Scholar Chat',
-                          style: TextStyle(
-                            fontSize: 32,
-                            color: Colors.white,
-                            fontFamily: 'pacifico',
-                          ),
-                        ),
-                      ],
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                CustomFormTextField(
+                  onChanged: (data) {
+                    email = data;
+                  },
+                  hintText: "email",
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                CustomFormTextField(
+                  onChanged: (data) {
+                    password = data;
+                  },
+                  hintText: "password",
+                ),
+                const Sized
+                Box(
+                  height: 18,
+                ),
+                CustomButton(
+                  onTap: () async {
+                    if (formkey.currentState!.validate()) {
+                      isLoading = true;
+                      setState(() {});
+                      try {
+                        await registerUser();
+                        Navigator.pushNamed(context, ChatPage.id) ; 
+                      } on FirebaseAuthException catch (ex) {
+                        if (ex.code == 'weak-password') {
+                          showSnackBar(context, 'weak password');
+                        } else if (ex.code == 'email-already-in-use') {
+                          showSnackBar(context, 'email already in use');
+                        }
+                      } catch (ex) {
+                        showSnackBar(context, 'there was an error');
+                      }
+                      
+                      isLoading = false;
+                      setState(() {});
+                    } 
+                  },
+                  buttonText: "register",
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'already have an account ?    ',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    const SizedBox(
-                      height: 75,
-                    ),
-                    const Row(
-                      children: [
-                        Text(
-                          'REGISTER',
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CustomFormTextField(
-                      onChanged: (data) {
-                        email = data;
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
                       },
-                      hintText: 'Email',
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomFormTextField(
-                      onChanged: (data) {
-                        password = data;
-                      },
-                      hintText: 'Password',
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CustomButton(
-                      onTap: () async {
-                        if (formKey.currentState!.validate()) {
-                          BlocProvider.of<RegisterCubit>(context)
-                              .registerUser(email: email!, password: password!);
-                        } else {}
-                      },
-                      buttonText: 'REGISTER',
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'already have an account?',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            '  Login',
-                            style: TextStyle(
-                              color: Color(0xffC7EDE6),
-                            ),
-                          ),
-                        ),
-                      ],
+                      child: const Text(
+                        'login',
+                        style: TextStyle(
+                            color: Colors.black87, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
