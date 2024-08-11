@@ -1,3 +1,4 @@
+
 import 'package:chat_app/models/message.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -10,6 +11,7 @@ class ChatBuble extends StatelessWidget {
  final Message message ;
   @override
   Widget build(BuildContext context) {
+    
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
@@ -45,6 +47,8 @@ final Message message ;
   
   @override
   Widget build(BuildContext context) {
+        var email = ModalRoute.of(context)!.settings.arguments as String ;
+
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
