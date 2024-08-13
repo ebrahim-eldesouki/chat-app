@@ -68,7 +68,7 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(
-                    height: 75,
+                    height: 65,
                   ),
                   const Row(
                     children: [
@@ -131,7 +131,8 @@ class LoginPage extends StatelessWidget {
                         child: const Text(
                           '  Register',
                           style: TextStyle(
-                            color: Color(0xffC7EDE6),
+                            color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),

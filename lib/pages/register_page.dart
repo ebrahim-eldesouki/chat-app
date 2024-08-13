@@ -27,7 +27,7 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-       if (state is RegisterLoading) {
+        if (state is RegisterLoading) {
           isLoading == true;
         } else if (state is RegisterSuccess) {
           BlocProvider.of<ChatCubit>(context).getMassages();
@@ -49,6 +49,9 @@ class RegisterPage extends StatelessWidget {
                   key: formKey,
                   child: ListView(
                     children: [
+                      const SizedBox(
+                        height: 75,
+                      ),
                       Image.asset(
                         'assets/images/scholar.png',
                         height: 100,
@@ -66,13 +69,13 @@ class RegisterPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 65,
                       ),
                       const Row(
                         children: [
                           Text(
                             "register",
-                            style: TextStyle(color: Colors.white, fontSize: 28),
+                            style: TextStyle(color: Colors.white, fontSize: 24),
                           ),
                         ],
                       ),
@@ -86,7 +89,7 @@ class RegisterPage extends StatelessWidget {
                         hintText: "email",
                       ),
                       const SizedBox(
-                        height: 16,
+                        height: 10,
                       ),
                       CustomFormTextField(
                         onChanged: (data) {
@@ -95,7 +98,7 @@ class RegisterPage extends StatelessWidget {
                         hintText: "password",
                       ),
                       const SizedBox(
-                        height: 18,
+                        height: 20,
                       ),
                       CustomButton(
                         onTap: () async {
@@ -107,7 +110,7 @@ class RegisterPage extends StatelessWidget {
                         buttonText: "register",
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 10,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
