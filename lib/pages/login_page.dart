@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
+import 'package:chat_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:chat_app/cubits/chat_cubit/chat_cubit.dart';
-import 'package:chat_app/cubits/login_cubit/login_cubit.dart';
 import 'package:chat_app/helper/show_snack_bar.dart';
 import 'package:chat_app/pages/register_page.dart';
 import 'package:chat_app/widgets/custom_button.dart';
@@ -24,13 +24,13 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginCubit, LoginState>(
+    return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is LoginLoading) {
           isLoading == true;
         } else if (state is LoginSuccess) {
-          BlocProvider.of<ChatCubit>(context).getMassages() ; 
-          Navigator.pushNamed(context, ChatPage.id,arguments: email);
+          BlocProvider.of<ChatCubit>(context).getMassages();
+          Navigator.pushNamed(context, ChatPage.id, arguments: email);
           isLoading == false;
         } else if (state is LoginFailure) {
           showSnackBar(context, state.errorMassage);
@@ -106,8 +106,8 @@ class LoginPage extends StatelessWidget {
                   CustomButton(
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
-                        BlocProvider.of<LoginCubit>(context)
-                            .loginUser(email: email!, password: password!);
+                        BlocProvider.of<AuthBloc>(context).add(
+                            LoginEvent(email: email!, password: password!));
                       } else {}
                     },
                     buttonText: 'LOGIN',
@@ -145,5 +145,4 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-
 }

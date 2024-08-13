@@ -47,8 +47,6 @@ final Message message ;
   
   @override
   Widget build(BuildContext context) {
-        var email = ModalRoute.of(context)!.settings.arguments as String ;
-
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
